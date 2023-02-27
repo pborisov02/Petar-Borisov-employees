@@ -1,4 +1,4 @@
-﻿namespace SirmaSolutionsProblem
+namespace SirmaSolutionsProblem
 {
     internal class Program
     {
@@ -18,7 +18,7 @@
                     string projId = arguments[1];
                     string startDate = arguments[2];
                     string endDate = arguments[3];
-                    if (endDate == "NULL")
+                    if (endDate.ToLower() == "null")
                         endDate = DateTime.Today.ToShortDateString();
                     foreach (var project in projects)
                     {
@@ -63,13 +63,18 @@
                             {
                                 project.Id1 = project.Employees[i].Id;
                                 project.Id2 = project.Employees[j].Id;
-                                project.Days = daysWorked;
+                                project.Days = daysWorked+1;
                             }
                         }
                     }
                 }
             }
             var result = projects.OrderByDescending(p => p.Days).First();
+            if (result.Days == 0)
+            {
+                Console.WriteLine("There was no pair that worked together on a project.");
+                return;
+            }
             Console.WriteLine($"The pair that has worked together on a project the longest according to the data are employees: {result.Id1} and {result.Id2}, they worked on project {result.ProjId} for total of {result.Days} days.");
         }
     }
